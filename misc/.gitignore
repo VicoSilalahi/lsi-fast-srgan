@@ -43,7 +43,7 @@ Thumbs.db
 # Simulation waveforms and runtime files
 *.vcd
 *.vvp
-*.vcd.gz
+*.gz
 *.fst
 *.fst.gz
 *.wlf
