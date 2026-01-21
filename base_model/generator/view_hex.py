@@ -1,8 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import os
-
+# ============================================================================
 # Fixed-point defaults (Q8.24)
+# ============================================================================
 INT_BITS = 8
 FRAC_BITS = 24
 
@@ -34,9 +35,9 @@ CHANNELS = 3
 # Global Fixed Point Config
 FP_CONFIG = FixedPointConfig()
 
+# ============================================================================
 # Helper functions
-
-
+# ============================================================================
 def hex_to_float(hex_lines, fp_cfg):
     """
     Parses Hex strings into Floating point list using parameterized Q format.
@@ -87,11 +88,9 @@ def denormalize(img):
     return np.clip((img + 1.0) / 2.0, 0.0, 1.0)
 
 
-# ==========================================
-# 2. MAIN SCRIPT
-# ==========================================
-
-
+# ============================================================================
+# Main
+# ============================================================================
 def main():
     print(f"--- Visualizing HEX Data (Q{FP_CONFIG.int_bits}.{FP_CONFIG.frac_bits}) ---")
 

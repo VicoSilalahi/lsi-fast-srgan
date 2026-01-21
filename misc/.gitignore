@@ -1,0 +1,101 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+build/
+dist/
+eggs/
+*.egg-info/
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+*.cover
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+ENV/
+env/
+venv.bak/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# Verilog / HDL tool outputs (simulation, synthesis, intermediate)
+# Simulation waveforms and runtime files
+*.vcd
+*.vvp
+*.vcd.gz
+*.fst
+*.fst.gz
+*.wlf
+*.vpd
+*.dump
+
+# Verilator
+obj_dir/
+sim_build/
+vl_dump.vcd
+
+# ModelSim/Questa
+work/
+modelsim.ini
+transcript
+*.jou
+*.log
+vsim.wlf
+
+# Vivado / Xilinx
+*.runs/
+*.cache/
+*.jou
+*.log
+*.str
+*.lso
+*.Xil
+webtalk*
+
+# Quartus/Intel
+*.qdb
+db/
+incremental_db/
+
+# Synthesis / intermediate
+*.edf
+*.ngc
+*.rpt
+*.blif
+
+# FPGA bitstreams and binaries
+*.bit
+*.bin
+*.mcs
+*.svf
+
+# Logs and temporary build files
+*.tmp
+*.bak
+*.old
+*.orig
+
+# OS files
+._*
+Icon

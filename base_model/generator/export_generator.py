@@ -5,7 +5,9 @@ import os
 
 import torch.onnx
 
+# ============================================================================
 # Fixed-point defaults (Q8.24)
+# ============================================================================
 INT_BITS = 8
 FRAC_BITS = 24
 TOTAL_BITS = INT_BITS + FRAC_BITS
@@ -14,8 +16,9 @@ SCALE = 1 << SHIFT
 SIGN_MASK = 1 << (TOTAL_BITS - 1)
 TWO_COMP_MASK = 1 << TOTAL_BITS
 
-
+# ============================================================================
 # Configuration and Seeding
+# ============================================================================
 class Config:
     def __init__(self):
         self.n_filters = 64
@@ -26,8 +29,9 @@ def set_seeds():
     torch.manual_seed(42)
     np.random.seed(42)
 
-
+# ============================================================================
 # Model
+# ============================================================================
 class ResidualBlock(nn.Module):
     def __init__(self, in_channels, out_channels):
         super().__init__()
@@ -90,10 +94,9 @@ class Generator(nn.Module):
         x = self.upsampling(x)
         return self.head(x)
 
-
+# ============================================================================
 # Helper Function
-
-
+# ============================================================================
 def fuse_bn_sequential(block):
     """Fuses BatchNorm layers into preceding Conv layers for hardware optimization."""
     stack = []
@@ -156,9 +159,9 @@ def debug_hook(module, input, output):
         val = output.detach().sum().item()
         print(f"[DEBUG PyTorch] Layer {module.__class__.__name__}: Sum = {val:.4f}")
 
-
+# ============================================================================
 # Main Script
-
+# ============================================================================
 if __name__ == "__main__":
     set_seeds()
 

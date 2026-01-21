@@ -3,13 +3,16 @@ import torch.nn as nn
 import numpy as np
 import os
 
-
+# ============================================================================
 # Fixed-point defaults (Q8.24)
+# ============================================================================
 INT_BITS = 8
 FRAC_BITS = 24
 TOTAL_BITS = INT_BITS + FRAC_BITS
 
-
+# ============================================================================
+# Configuration and Seeding
+# ============================================================================
 class Config:
     def __init__(self):
         self.n_filters = 64
@@ -55,7 +58,9 @@ class Discriminator(nn.Module):
         x = self.neck(x)
         return self.stem(x)
 
-
+# ============================================================================
+# Helper Function
+# ============================================================================
 def fuse_conv_and_bn(conv, bn):
     with torch.no_grad():
         mu = bn.running_mean
@@ -92,6 +97,7 @@ def fuse_discriminator_blocks(model):
             
             # Disable BN
             module.bn = nn.Identity()
+
 # Hex utilities
 def float_to_hex(value, integer_bits=8, fraction_bits=24):
     """Convert float -> Q(integer_bits).fraction_bits 32-bit hex string."""
@@ -116,7 +122,9 @@ def save_tensor_to_hex(tensor, filename):
             f.write(float_to_hex(val, integer_bits=INT_BITS, fraction_bits=FRAC_BITS) + '\n')
     print(f"Saved {len(data)} entries to {filename}")
 
-# Main execution
+# ============================================================================
+# Main
+# ============================================================================
 if __name__ == "__main__":
     set_seeds()
     config = Config()

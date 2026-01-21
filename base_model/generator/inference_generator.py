@@ -1,6 +1,8 @@
 import os
 
-# Fixed-point configuration (Q8.24)
+# ============================================================================
+# Fixed-point defaults (Q8.24)
+# ============================================================================
 INT_BITS = 8
 FRAC_BITS = 24
 TOTAL_BITS = INT_BITS + FRAC_BITS
@@ -11,7 +13,9 @@ TWO_COMP_MASK = 1 << TOTAL_BITS
 MAX_INT = (1 << (TOTAL_BITS - 1)) - 1
 MIN_INT = -(1 << (TOTAL_BITS - 1))
 
-
+# ============================================================================
+# Helper Function
+# ============================================================================
 def to_signed(val):
     """Interpret hex as signed integer using local config."""
     if val & SIGN_MASK:
@@ -33,9 +37,10 @@ def load_hex_file(filename):
     with open(path, "r") as f:
         return [to_signed(int(line.strip(), 16)) for line in f]
 
-
+# ============================================================================
 # Hardware Logic
-def fixed_multiply(a, b):
+# ============================================================================
+def fixed_mul(a, b):
     return (a * b) >> SHIFT
 
 
@@ -81,7 +86,7 @@ def conv2d_3x3(input_vol, weights, bias, stride=1, pad=1):
                             w_val = weights[oc][ic][ky][kx]
 
                             # Multiply-Accumulate (MAC)
-                            prod = fixed_multiply(val, w_val)
+                            prod = fixed_mul(val, w_val)
                             acc += prod
 
                 # Add Bias
@@ -109,7 +114,7 @@ def prelu(input_vol, slope):
             for c_idx in range(w):
                 val = input_vol[ch][r][c_idx]
                 if val < 0:
-                    out[ch][r][c_idx] = fixed_multiply(val, s)
+                    out[ch][r][c_idx] = fixed_mul(val, s)
                 else:
                     out[ch][r][c_idx] = val
     return out
@@ -162,8 +167,9 @@ def add_residual(vol_a, vol_b):
                 out[i][j][k] = vol_a[i][j][k] + vol_b[i][j][k]
     return out
 
-
+# ============================================================================
 # Weight Load
+# ============================================================================
 def load_conv_weights(name, out_ch, in_ch):
     flat_w = load_hex_file(f"{name}_weight.hex")
     flat_b = load_hex_file(f"{name}_bias.hex")
@@ -196,8 +202,9 @@ def load_prelu_slope(name):
     return data[0]
 
 
+# ============================================================================
 # Main
-
+# ============================================================================
 if __name__ == "__main__":
     print("Loading Input Image")
     flat_img = load_hex_file("input_image.hex")

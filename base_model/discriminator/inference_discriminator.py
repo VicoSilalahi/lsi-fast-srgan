@@ -1,6 +1,8 @@
 import os
 
-# Fixed-point configuration (Q8.24)
+# ============================================================================
+# Fixed-point defaults (Q8.24)
+# ============================================================================
 INT_BITS = 8
 FRAC_BITS = 24
 TOTAL_BITS = INT_BITS + FRAC_BITS
@@ -9,7 +11,9 @@ SCALE = 1 << SHIFT
 SIGN_MASK = 1 << (TOTAL_BITS - 1)
 TWO_COMP_MASK = 1 << TOTAL_BITS
 
-
+# ============================================================================
+# Helper Function
+# ============================================================================
 def to_signed(val):
     if val & SIGN_MASK:
         return val - TWO_COMP_MASK
@@ -24,8 +28,9 @@ def load_hex(filename):
     with open(path, 'r') as f:
         return [to_signed(int(line.strip(), 16)) for line in f]
 
-
-# Math kernels (bit-true)
+# ============================================================================
+# Hardware Logic
+# ============================================================================
 def fixed_mul(a, b):
     # Fixed-point multiply: (A * B) >> SHIFT
     return (a * b) >> SHIFT
@@ -92,7 +97,9 @@ def leaky_relu(input_vol, slope=0.2):
     return out
 
 
-# Weight loader
+# ============================================================================
+# Weight Load
+# ============================================================================
 def load_weights_conv(name, out_ch, in_ch, k=3):
     flat_w = load_hex(f"{name}_weight.hex")
     flat_b = load_hex(f"{name}_bias.hex")
@@ -114,6 +121,10 @@ def load_weights_conv(name, out_ch, in_ch, k=3):
         weights.append(row_in)
     return weights, flat_b
 
+
+# ============================================================================
+# Main
+# ============================================================================
 if __name__ == "__main__":
     print("Starting hardware inference simulation")
 
