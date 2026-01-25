@@ -16,6 +16,7 @@ SCALE = 1 << SHIFT
 SIGN_MASK = 1 << (TOTAL_BITS - 1)
 TWO_COMP_MASK = 1 << TOTAL_BITS
 
+
 # ============================================================================
 # Configuration and Seeding
 # ============================================================================
@@ -28,6 +29,7 @@ class Config:
 def set_seeds():
     torch.manual_seed(42)
     np.random.seed(42)
+
 
 # ============================================================================
 # Model
@@ -94,6 +96,7 @@ class Generator(nn.Module):
         x = self.upsampling(x)
         return self.head(x)
 
+
 # ============================================================================
 # Helper Function
 # ============================================================================
@@ -149,7 +152,9 @@ def save_tensor_to_hex(tensor, filename):
     data = tensor.detach().cpu().numpy().flatten()
     with open(filename, "w") as f:
         for val in data:
-            f.write(float_to_hex(val, integer_bits=INT_BITS, fraction_bits=FRAC_BITS) + "\n")
+            f.write(
+                float_to_hex(val, integer_bits=INT_BITS, fraction_bits=FRAC_BITS) + "\n"
+            )
     print(f"Saved {len(data)} entries to {filename}")
 
 
@@ -158,6 +163,7 @@ def debug_hook(module, input, output):
     if isinstance(output, torch.Tensor):
         val = output.detach().sum().item()
         print(f"[DEBUG PyTorch] Layer {module.__class__.__name__}: Sum = {val:.4f}")
+
 
 # ============================================================================
 # Main Script
@@ -215,14 +221,30 @@ if __name__ == "__main__":
         # Hook the block output (Post-Addition)
         model.stem[i].register_forward_hook(debug_hook)
 
-    # Generate Input (Gradient)
-    print("Generating Gradient Input Pattern")
+    # # Generate Input (Gradient)
+    # print("Generating Gradient Input Pattern")
+    # input_dummy = torch.zeros(1, 3, 8, 8)
+    # for c in range(3):
+    #     for y in range(8):
+    #         for x in range(8):
+    #             val = ((x + y) / 16.0) * 2.0 - 1.0
+    #             input_dummy[0, c, y, x] = val
+
+    # Generate Input (Colored Gradient-Somewhat dark)
+    print("Generating Colored Gradient Input Pattern")
     input_dummy = torch.zeros(1, 3, 8, 8)
-    for c in range(3):
-        for y in range(8):
-            for x in range(8):
-                val = ((x + y) / 16.0) * 2.0 - 1.0
-                input_dummy[0, c, y, x] = val
+    for y in range(8):
+        for x in range(8):
+            # input_dummy[0, 0, y, x] = (x / 7.0) * 2.0 - 1.0  # R: Left to Right
+            # input_dummy[0, 1, y, x] = (y / 7.0) * 2.0 - 1.0  # G: Top to Bottom
+            # # input_dummy[0, 2, y, x] = ((x + y) / 14.0) * 2.0 - 1.0  # B: Diagonal
+
+            # Red: Left to Right
+            input_dummy[0, 0, y, x] = (x / 7.0) * 2.0 - 1.0
+            # Green: Top to Bottom
+            input_dummy[0, 1, y, x] = (y / 7.0) * 2.0 - 1.0
+            # Blue: Bottom-Right to Top-Left
+            input_dummy[0, 2, y, x] = (((7 - x) + (7 - y)) / 14.0) * 2.0 - 1.0
 
     # Run Inference and Save Golden Data
     with torch.no_grad():

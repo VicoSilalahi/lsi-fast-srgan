@@ -1,0 +1,52 @@
+$date
+	Sun Jan 25 13:33:44 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb_prelu_unit $end
+$var wire 32 ! data_out [31:0] $end
+$var parameter 32 " DATA_WIDTH $end
+$var parameter 32 # FRAC_WIDTH $end
+$var reg 32 $ data_in [31:0] $end
+$var reg 32 % slope [31:0] $end
+$scope module uut $end
+$var wire 32 & data_in [31:0] $end
+$var wire 32 ' slope [31:0] $end
+$var wire 32 ( scaled_neg [31:0] $end
+$var wire 64 ) product [63:0] $end
+$var wire 32 * data_out [31:0] $end
+$var parameter 32 + DATA_WIDTH $end
+$var parameter 32 , FRAC_WIDTH $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b11000 ,
+b100000 +
+b11000 #
+b100000 "
+$end
+#0
+$dumpvars
+b100000000000000000000000 *
+b100000000000000000000000000000000000000000000 )
+b100000000000000000000 (
+b1000000000000000000000 '
+b100000000000000000000000 &
+b1000000000000000000000 %
+b100000000000000000000000 $
+b100000000000000000000000 !
+$end
+#10
+b11111111111100000000000000000000 (
+b11111111111100000000000000000000 !
+b11111111111100000000000000000000 *
+b1111111111111111111100000000000000000000000000000000000000000000 )
+b11111111100000000000000000000000 $
+b11111111100000000000000000000000 &
+#20

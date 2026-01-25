@@ -1,0 +1,44 @@
+$date
+	Sun Jan 25 13:34:07 2026
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1s
+$end
+$scope module tb_residual_adder $end
+$var wire 32 ! data_out [31:0] $end
+$var parameter 32 " DATA_WIDTH $end
+$var reg 32 # identity_in [31:0] $end
+$var reg 32 $ stream_in [31:0] $end
+$scope module uut $end
+$var wire 32 % identity_in [31:0] $end
+$var wire 32 & stream_in [31:0] $end
+$var wire 32 ' data_out [31:0] $end
+$var parameter 32 ( DATA_WIDTH $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+b100000 (
+b100000 "
+$end
+#0
+$dumpvars
+b110000000000000000000000 '
+b100000000000000000000000 &
+b10000000000000000000000 %
+b100000000000000000000000 $
+b10000000000000000000000 #
+b110000000000000000000000 !
+$end
+#10
+b1000000000000000000000000 #
+b1000000000000000000000000 %
+b100000000000000000000000 !
+b100000000000000000000000 '
+b11111111100000000000000000000000 $
+b11111111100000000000000000000000 &
+#20
